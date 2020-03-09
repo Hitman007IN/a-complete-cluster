@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servicea-deployment
+  labels:
+    app: servicea
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: servicea
+  template:
+    metadata:
+      labels:
+        app: servicea
+    spec:
+      containers:
+        - name: servicea
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+                path: /welcome
+                port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20

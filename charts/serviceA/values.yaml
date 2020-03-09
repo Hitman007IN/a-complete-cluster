@@ -1,0 +1,17 @@
+replicaCount: 1
+imagePullSecrets:
+image:
+  repository: asia.gcr.io/flawless-mason-258102/servicea:1.0.0
+  tag: dev
+  pullPolicy: Always
+service:
+  type: loadbalancer
+  externalPort: 80
+  internalPort: 8080
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
