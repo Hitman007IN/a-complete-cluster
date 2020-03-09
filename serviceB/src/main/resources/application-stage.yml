@@ -1,0 +1,6 @@
+message:
+  default:
+    welcome: Welcome to stage env of ServiceB...
+    goodbye: Goodbye from stage env of ServiceB...
+server:
+  port: 8081

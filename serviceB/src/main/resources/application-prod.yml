@@ -1,0 +1,6 @@
+message:
+  default:
+    welcome: Welcome to prod env of ServiceB...
+    goodbye: Goodbye from prod env of ServiceB...
+server:
+  port: 8081

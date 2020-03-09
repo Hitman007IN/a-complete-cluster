@@ -1,0 +1,6 @@
+message:
+  default:
+    welcome: Welcome to dev env of ServiceB...
+    goodbye: Goodbye from dev env of ServiceB...
+server:
+  port: 8081
