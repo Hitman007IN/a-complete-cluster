@@ -17,7 +17,8 @@ pipeline {
     
     tools {
         maven 'Maven 3.3.9' 
-        jdk 'jdk8' 
+        jdk 'jdk8'
+        docker 'docker' 
     }
     
     stages{
@@ -57,13 +58,13 @@ pipeline {
              script {
                  sh '''
             cd serviceA
-            docker build -t ${env.APP_SERVICE1}:${env.TAG_ID} .
-            docker tag {env.APP_SERVICE1}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}
+            docker.build -t ${env.APP_SERVICE1}:${env.TAG_ID} .
+            docker.tag {env.APP_SERVICE1}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}
             '''
             sh '''
             cd serviceB
-            docker build -t ${env.APP_SERVICE2}:${env.TAG_ID} .
-            docker tag ${env.APP_SERVICE2}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE2}:${env.TAG_ID}
+            docker.build -t ${env.APP_SERVICE2}:${env.TAG_ID} .
+            docker.tag ${env.APP_SERVICE2}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE2}:${env.TAG_ID}
             '''
              }
             
