@@ -6,7 +6,7 @@ pipeline {
     agent any
     
     environment {
-        PROJECT = "qwiklabs-gcp-01-395f73c2d999"
+        PROJECT = "qwiklabs-gcp-01-e67cbc3a810b"
         CLUSTER = "jenkins-cd"
         CLUSTER_ZONE = "us-east1-d"
         JENKINS_CRED = "${PROJECT}"
