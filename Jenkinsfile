@@ -14,8 +14,10 @@ pipeline {
   }
 
     agent any
+    
+    stages{
 
-    //def commitId
+        //def commitId
     stage ('Extract') {
         checkout scm
         sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
@@ -71,6 +73,8 @@ pipeline {
                 }
             }
         }
+    }
+
     }
 }
 
