@@ -10,14 +10,15 @@ pipeline {
         JENKINS_CRED = "${PROJECT}"
         APP_SERVICE1 = "servicea"
         APP_SERVICE2 = "serviceb"
+        TAG_ID = "1.0.0"
   }
 
     agent any
 
-    def commitId
+    //def commitId
     stage ('Extract') {
         checkout scm
-        commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+        sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
     }
 
     stage('Build Application Code') { 
@@ -39,23 +40,23 @@ pipeline {
         steps {
             sh '''
             cd serviceA
-            docker.build -t env.APP_SERVICE1:${commitId} .
-            docker.tag env.APP_SERVICE1:${commitId} gcr.io/env.PROJECT/env.APP_SERVICE1:${commitId}
+            docker.build -t env.APP_SERVICE1:env.TAG_ID .
+            docker.tag env.APP_SERVICE1:env.TAG_ID gcr.io/env.PROJECT/env.APP_SERVICE1:env.TAG_ID
             '''
         }
         steps {
             sh '''
             cd serviceB
-            docker.build -t env.APP_SERVICE2:${commitId} .
-            docker.tag env.APP_SERVICE2:${commitId} gcr.io/env.PROJECT/env.APP_SERVICE2:${commitId}
+            docker.build -t env.APP_SERVICE2:env.TAG_ID .
+            docker.tag env.APP_SERVICE2:env.TAG_ID gcr.io/env.PROJECT/env.APP_SERVICE2:env.TAG_ID
             '''
         }
     }
 
     stage('Push Image to GCR') {
         docker.withRegistry('https://gcr.io', 'env.JENKINS_CRED') {
-            sh "docker push env.APP_SERVICE1:${commitId}"
-            sh "docker push env.APP_SERVICE2:${commitId}"
+            sh "docker push env.APP_SERVICE1:env.TAG_ID"
+            sh "docker push env.APP_SERVICE2:env.TAG_ID"
         }
     }
 
