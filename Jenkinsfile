@@ -21,9 +21,7 @@ pipeline {
     stage ('Extract') {
         steps {
             checkout scm
-        }
-        steps {
-             sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+            sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
        
     }
@@ -34,13 +32,12 @@ pipeline {
             cd serviceA
             mvn -DskipTests clean install
             '''
-        }
-        steps {
             sh '''
             cd serviceB
             mvn -DskipTests clean install
             '''
         }
+        
     }
 
     stage('Build Docker Image') {
@@ -50,14 +47,13 @@ pipeline {
             docker.build -t env.APP_SERVICE1:env.TAG_ID .
             docker.tag env.APP_SERVICE1:env.TAG_ID gcr.io/env.PROJECT/env.APP_SERVICE1:env.TAG_ID
             '''
-        }
-        steps {
             sh '''
             cd serviceB
             docker.build -t env.APP_SERVICE2:env.TAG_ID .
             docker.tag env.APP_SERVICE2:env.TAG_ID gcr.io/env.PROJECT/env.APP_SERVICE2:env.TAG_ID
             '''
         }
+        
     }
 
     stage('Push Image to GCR') {
