@@ -39,11 +39,11 @@ pipeline {
             script {
                 sh '''
             cd serviceA
-            mvn -DskipTests clean install
+            mvn -DskipTests clean package
             '''
             sh '''
             cd serviceB
-            mvn -DskipTests clean install
+            mvn -DskipTests clean package
             cd ..
             '''
             }
@@ -84,7 +84,7 @@ pipeline {
         
     }
 
-    stage('Deployment') {
+    stage('Helm Deployment') {
         steps {
            script {
                 container('helm') {
