@@ -3,6 +3,8 @@
  */
 pipeline {
 
+    agent any
+    
     environment {
         PROJECT = "qwiklabs-gcp-01-395f73c2d999"
         CLUSTER = "jenkins-cd"
@@ -12,8 +14,11 @@ pipeline {
         APP_SERVICE2 = "serviceb"
         TAG_ID = "1.0.0"
   }
-
-    agent any
+    
+    tools {
+        jdk "jdk"
+        maven "mvn"
+    }
     
     stages{
 
