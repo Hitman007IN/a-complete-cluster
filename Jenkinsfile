@@ -57,13 +57,13 @@ pipeline {
              script {
                  sh '''
             cd serviceA
-            docker.build -t env.APP_SERVICE1:env.TAG_ID .
-            docker.tag env.APP_SERVICE1:env.TAG_ID gcr.io/env.PROJECT/env.APP_SERVICE1:env.TAG_ID
+            docker build -t ${env.APP_SERVICE1}:${env.TAG_ID} .
+            docker tag {env.APP_SERVICE1}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}
             '''
             sh '''
             cd serviceB
-            docker.build -t env.APP_SERVICE2:env.TAG_ID .
-            docker.tag env.APP_SERVICE2:env.TAG_ID gcr.io/env.PROJECT/env.APP_SERVICE2:env.TAG_ID
+            docker build -t ${env.APP_SERVICE2}:${env.TAG_ID} .
+            docker tag ${env.APP_SERVICE2}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE2}:${env.TAG_ID}
             '''
              }
             
@@ -74,9 +74,9 @@ pipeline {
     stage('Push Image to GCR') {
         steps {
             script {
-                docker.withRegistry('https://gcr.io', 'env.JENKINS_CRED') {
-            sh "docker push env.APP_SERVICE1:env.TAG_ID"
-            sh "docker push env.APP_SERVICE2:env.TAG_ID"
+                docker.withRegistry('https://gcr.io/${env.PROJECT}/', 'env.JENKINS_CRED') {
+            sh "docker push ${env.APP_SERVICE1}:${env.TAG_ID}"
+            sh "docker push ${env.APP_SERVICE2}:${env.TAG_ID}"
             }
             
             }
@@ -90,8 +90,8 @@ pipeline {
                 container('helm') {
                     // Init authentication and config for your kubernetes cluster
                     sh("helm init --client-only --skip-refresh")
-                    sh("helm upgrade --install --wait env.APP_SERVICE1 ./helm/serviceA/ --namespace dev")
-                    sh("helm upgrade --install --wait env.APP_SERVICE2 ./helm/serviceB/ --namespace dev")
+                    sh("helm upgrade --install --wait ${env.APP_SERVICE1} ./helm/serviceA/ --namespace dev")
+                    sh("helm upgrade --install --wait ${env.APP_SERVICE2} ./helm/serviceB/ --namespace dev")
                 }
             }
         }

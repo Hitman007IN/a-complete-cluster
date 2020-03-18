@@ -32,3 +32,23 @@ kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
 Step 4 :- Connect to Jenkins
 printf $(kubectl get secret cd-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
 open browser with port 8080 
+
+#Create Jenkins Pipeline
+
+Phase 1: Install JDK, Maven, JDK, Pipeline as plugin add jdk, select extract from zip option and add
+
+Label: openjdk-11
+Download URL: https://download.java.net/java/GA/jdk11/13/GPL/openjdk-11.0.1_linux-x64_bin.tar.gz
+Subdirectory of extracted archive: jdk-11.0.1
+add maven details Maven 3.3.9 and select 3.3.9 from dropdown
+
+Phase 2: Add your service account credentials
+
+First we will need to configure our GCP credentials in order for Jenkins to be able to access our code repository
+
+In the Jenkins UI, Click “Credentials” on the left
+Click either of the “(global)” links (they both route to the same URL)
+Click “Add Credentials” on the left
+From the “Kind” dropdown, select “Google Service Account from metadata”
+your project name will be displayed
+Click “OK”
