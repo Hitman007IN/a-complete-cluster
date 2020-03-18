@@ -89,8 +89,8 @@ pipeline {
                 container('helm') {
                     // Init authentication and config for your kubernetes cluster
                     sh("helm init --client-only --skip-refresh")
-                    sh("helm upgrade --install --wait env.APP_SERVICE1 ./helm/serviceA --namespace dev")
-                    sh("helm upgrade --install --wait env.APP_SERVICE2 ./helm/serviceB --namespace dev")
+                    sh("helm upgrade --install --wait env.APP_SERVICE1 ./helm/serviceA/ --namespace dev")
+                    sh("helm upgrade --install --wait env.APP_SERVICE2 ./helm/serviceB/ --namespace dev")
                 }
             }
         }
