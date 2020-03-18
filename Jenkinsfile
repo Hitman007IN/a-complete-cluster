@@ -44,6 +44,7 @@ pipeline {
             sh '''
             cd serviceB
             mvn -DskipTests clean install
+            cd ..
             '''
             }
             
