@@ -35,12 +35,13 @@ open browser with port 8080
 
 #Create Jenkins Pipeline
 
-Phase 1: Install JDK, Maven, JDK, Pipeline as plugin add jdk, select extract from zip option and add
+Phase 1: Install JDK, Maven, Docker, JDK, Pipeline as plugin add jdk, select extract from zip option and add
 
 Label: openjdk-11
 Download URL: https://download.java.net/java/GA/jdk11/13/GPL/openjdk-11.0.1_linux-x64_bin.tar.gz
 Subdirectory of extracted archive: jdk-11.0.1
 add maven details Maven 3.3.9 and select 3.3.9 from dropdown
+Docker -> fill Name (like Docker-latest) -> check on install automatically and then Add installer (Download from docker.com).
 
 Phase 2: Add your service account credentials
 
