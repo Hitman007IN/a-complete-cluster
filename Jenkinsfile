@@ -18,7 +18,7 @@ pipeline {
     tools {
         maven 'Maven 3.3.9' 
         jdk 'jdk8'
-        org.jenkinsci.plugins.docker.commons.tools.DockerTool 'docker'
+        Docker 'docker'
       
     }
     
