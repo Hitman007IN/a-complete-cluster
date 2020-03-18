@@ -59,7 +59,7 @@ pipeline {
                  sh '''
             cd serviceA
             docker.build -t ${env.APP_SERVICE1}:${env.TAG_ID} .
-            docker.tag {env.APP_SERVICE1}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}
+            docker.tag ${env.APP_SERVICE1}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}
             '''
             sh '''
             cd serviceB
