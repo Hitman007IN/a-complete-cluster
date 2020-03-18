@@ -56,16 +56,13 @@ pipeline {
     stage('Build Docker Image') {
         steps {
              script {
-                 sh '''
-            cd serviceA
-            docker.build -t ${env.APP_SERVICE1}:${env.TAG_ID} .
-            docker.tag ${env.APP_SERVICE1}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}
-            '''
-            sh '''
-            cd serviceB
-            docker.build -t ${env.APP_SERVICE2}:${env.TAG_ID} .
-            docker.tag ${env.APP_SERVICE2}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE2}:${env.TAG_ID}
-            '''
+                 sh "cd serviceA"
+            sh "docker.build -t ${env.APP_SERVICE1}:${env.TAG_ID} ."
+            sh "docker.tag ${env.APP_SERVICE1}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}"
+            
+            sh "cd serviceB"
+            sh "docker.build -t ${env.APP_SERVICE2}:${env.TAG_ID} ."
+            sh "docker.tag ${env.APP_SERVICE2}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE2}:${env.TAG_ID}"
              }
             
         }
