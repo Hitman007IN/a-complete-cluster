@@ -28,7 +28,8 @@ pipeline {
 
     stage('Build Application Code') { 
         steps {
-            sh '''
+            script {
+                sh '''
             cd serviceA
             mvn -DskipTests clean install
             '''
@@ -36,13 +37,16 @@ pipeline {
             cd serviceB
             mvn -DskipTests clean install
             '''
+            }
+            
         }
         
     }
 
     stage('Build Docker Image') {
         steps {
-            sh '''
+             script {
+                 sh '''
             cd serviceA
             docker.build -t env.APP_SERVICE1:env.TAG_ID .
             docker.tag env.APP_SERVICE1:env.TAG_ID gcr.io/env.PROJECT/env.APP_SERVICE1:env.TAG_ID
@@ -52,15 +56,23 @@ pipeline {
             docker.build -t env.APP_SERVICE2:env.TAG_ID .
             docker.tag env.APP_SERVICE2:env.TAG_ID gcr.io/env.PROJECT/env.APP_SERVICE2:env.TAG_ID
             '''
+             }
+            
         }
         
     }
 
     stage('Push Image to GCR') {
-        docker.withRegistry('https://gcr.io', 'env.JENKINS_CRED') {
+        steps {
+            script {
+                docker.withRegistry('https://gcr.io', 'env.JENKINS_CRED') {
             sh "docker push env.APP_SERVICE1:env.TAG_ID"
             sh "docker push env.APP_SERVICE2:env.TAG_ID"
+            }
+            
+            }
         }
+        
     }
 
     stage('Deployment') {
