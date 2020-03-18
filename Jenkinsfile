@@ -20,8 +20,11 @@ pipeline {
         //def commitId
     stage ('Extract') {
         steps {
-            checkout scm
+            script {
+                checkout scm
             sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+            }
+            
         }
        
     }
