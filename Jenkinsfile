@@ -59,23 +59,23 @@ podTemplate(
                 //def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
                 //repository = "${registryIp}:80/hello"
 
-                //sh "cd serviceA"
-                sh "docker build -t ${APP_SERVICE1}:${TAG_ID} ."
-                sh "docker tag ${APP_SERVICE1}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}"
-                sh "docker push gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}"
-                sh "cd .."
+                sh '''cd serviceA
+                docker build -t ${APP_SERVICE1}:${TAG_ID} .
+                docker tag ${APP_SERVICE1}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}
+                docker push gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}
+                cd ..'''
             
-                sh "cd serviceB"
-                sh "docker build -t ${APP_SERVICE2}:${TAG_ID} ."
-                sh "docker tag ${APP_SERVICE2}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}"
-                sh "docker push gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}"
-                sh "cd .."
+                sh '''cd serviceB
+                docker build -t ${APP_SERVICE2}:${TAG_ID} .
+                docker tag ${APP_SERVICE2}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}
+                docker push gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}
+                cd ..'''
             }
         }
         stage ('Helm Deploy') {
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
-                sh "/helm upgrade --install --wait --set image.repository=${repository},image.tag=${commitId} hello hello"
+                sh "/helm upgrade --install --wait --set image.repository=gcr.io/${PROJECT},image.tag=${TAG_ID} hello hello"
             }
         }
     }
