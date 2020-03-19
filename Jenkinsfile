@@ -57,8 +57,8 @@ podTemplate(
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
 
-            sh "cp jenkins-deploy-dev-infra.json /home/jenkins/dev/"
-            sh "gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}"
+            //sh "cp jenkins-deploy-dev-infra.json /home/jenkins/dev/"
+            //sh "gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}"
             //sh "gcloud config set compute/zone ${env.CLUSTER_ZONE}"
             //sh "gcloud config set core/project ${env.PROJECT_ID}"
             //sh "gcloud config set compute/region ${env.REGION}"
