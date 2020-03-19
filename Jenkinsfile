@@ -28,16 +28,17 @@ podTemplate(
         )
     ]
 ) {
+
+    environment {
+        PROJECT = "qwiklabs-gcp-01-516dac6d48f0"
+        CLUSTER = "jenkins-cd"
+        CLUSTER_ZONE = "us-east1-d"
+        JENKINS_CRED = "${PROJECT}"
+        APP_SERVICE1 = "servicea"
+        APP_SERVICE2 = "serviceb"
+        TAG_ID = "1.0.0"
+  }
     node('mypod') {
-        
-        def PROJECT = "qwiklabs-gcp-01-516dac6d48f0"
-        def CLUSTER = "jenkins-cd"
-        def CLUSTER_ZONE = "us-east1-d"
-        def JENKINS_CRED = "${PROJECT}"
-        def APP_SERVICE1 = "servicea"
-        def APP_SERVICE2 = "serviceb"
-        def TAG_ID = "1.0.0"
-        def commitId
 
         stage ('Git Checkout') {
             checkout scm
@@ -60,15 +61,15 @@ podTemplate(
                 //repository = "${registryIp}:80/hello"
 
                 sh '''cd serviceA
-                docker build -t servicea:1.0.0 .
-                docker tag ${APP_SERVICE1}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}
-                docker push gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}
+                docker build -t ${env.APP_SERVICE1}:${env.TAG_ID} .
+                docker tag ${env.APP_SERVICE1}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}
+                docker push gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}
                 cd ..'''
             
                 sh '''cd serviceB
-                docker build -t ${APP_SERVICE2}:${TAG_ID} .
-                docker tag ${APP_SERVICE2}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}
-                docker push gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}
+                docker build -t ${env.APP_SERVICE2}:${env.TAG_ID} .
+                docker tag ${env.APP_SERVICE2}:${TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE2}:${env.TAG_ID}
+                docker push gcr.io/${env.PROJECT}/${env.APP_SERVICE2}:${env.TAG_ID}
                 cd ..'''
             }
         }
