@@ -20,6 +20,12 @@ podTemplate(
             ttyEnabled: true,
             command: 'cat'
         )
+        containerTemplate(
+            name: 'gcloud',
+            image: 'gcr.io/cloud-builders/gcloud',
+            ttyEnabled: true,
+            command: 'cat'
+        )
     ],
     volumes: [
         hostPathVolume(
@@ -65,6 +71,11 @@ podTemplate(
         }
         def repository
         stage ('Docker Build and Push') {
+
+            container ('gcloud') {
+                sh "gcloud auth configure-docker"
+            }
+
             container ('docker') {
                 //def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
                 //repository = "${registryIp}:80/hello"
@@ -86,8 +97,8 @@ podTemplate(
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
                 //sh "/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 servicea hello"
-                sh("helm upgrade --install --wait servicea ./helm/serviceA/ --namespace dev")
-                sh("helm upgrade --install --wait serviceb ./helm/serviceB/ --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 ./helm/serviceA/ servicea --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 ./helm/serviceB/ serviceb --namespace dev")
             }
         }
     }
