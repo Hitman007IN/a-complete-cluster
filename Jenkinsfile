@@ -20,12 +20,12 @@ podTemplate(
             ttyEnabled: true,
             command: 'cat'
         ),
-        containerTemplate(
-            name: 'gcloud',
-            image: 'gcr.io/cloud-builders/gcloud',
-            ttyEnabled: true,
-            command: 'cat'
-        )
+        //containerTemplate(
+        //    name: 'gcloud',
+        //   image: 'gcr.io/cloud-builders/gcloud',
+        //    ttyEnabled: true,
+        //    command: 'cat'
+       // )
     ],
     volumes: [
         hostPathVolume(
@@ -72,9 +72,9 @@ podTemplate(
         def repository
         stage ('Docker Build and Push') {
 
-            container ('gcloud') {
-                sh "gcloud auth configure-docker"
-            }
+            //container ('gcloud') {
+            //    sh "gcloud auth configure-docker"
+            //}
 
             container ('docker') {
                 //def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
