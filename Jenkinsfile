@@ -60,7 +60,7 @@ podTemplate(
                 //repository = "${registryIp}:80/hello"
 
                 sh '''cd serviceA
-                docker build -t ${APP_SERVICE1}:${TAG_ID} .
+                docker build -t servicea:1.0.0 .
                 docker tag ${APP_SERVICE1}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}
                 docker push gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}
                 cd ..'''
