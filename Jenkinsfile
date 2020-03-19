@@ -1,3 +1,5 @@
+def GOOGLE_APPLICATION_CREDENTIALS = '/home/jenkins/dev/jenkins-deploy-dev-infra.json'
+
 podTemplate(
     label: 'mypod', 
     inheritFrom: 'default',
@@ -31,6 +33,9 @@ podTemplate(
         hostPathVolume(
             hostPath: '/var/run/docker.sock',
             mountPath: '/var/run/docker.sock'
+        ),
+        secretVolume(mountPath: '/home/jenkins/dev',
+            secretName: 'jenkins-deploy-dev-infra'
         )
     ]
 ) {
@@ -46,9 +51,17 @@ podTemplate(
         def TAG_ID = "1.0.0"
         def commitId
 
+        env.GOOGLE_APPLICATION_CREDENTIALS = GOOGLE_APPLICATION_CREDENTIALS
+
         stage ('Git Checkout') {
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+
+            sh "cp jenkins-deploy-dev-infra.json /home/jenkins/dev/"
+            sh "gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}"
+            //sh "gcloud config set compute/zone ${env.CLUSTER_ZONE}"
+            //sh "gcloud config set core/project ${env.PROJECT_ID}"
+            //sh "gcloud config set compute/region ${env.REGION}"
         }
         stage ('Maven Build') {
             container ('maven') {
@@ -74,17 +87,13 @@ podTemplate(
                 sh '''cd serviceA
                 docker build -t servicea:1.0.0 .
                 docker tag servicea:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
-                docker.withRegistry("https://gcr.io", "gcr:cred-id") {
-                    docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
-                }
+                docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
                 cd ..'''
             
                 sh '''cd serviceB
                 docker build -t serviceb:1.0.0 .
                 docker tag serviceb:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
-                docker.withRegistry("https://gcr.io", "gcr:cred-id") {
-                    docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
-                }
+                docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
                 cd ..'''
             }
         }
