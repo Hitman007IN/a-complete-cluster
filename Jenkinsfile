@@ -60,14 +60,16 @@ podTemplate(
                 //repository = "${registryIp}:80/hello"
 
                 sh "cd serviceA"
-                sh "docker build -t ${APP_SERVICE1}:${env.TAG_ID} ."
+                sh "docker build -t ${APP_SERVICE1}:${TAG_ID} ."
                 sh "docker tag ${APP_SERVICE1}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}"
                 sh "docker push gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}"
+                sh "cd .."
             
                 sh "cd serviceB"
                 sh "docker build -t ${APP_SERVICE2}:${TAG_ID} ."
                 sh "docker tag ${APP_SERVICE2}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}"
                 sh "docker push gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}"
+                sh "cd .."
             }
         }
         stage ('Helm Deploy') {
