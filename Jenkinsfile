@@ -74,13 +74,17 @@ podTemplate(
                 sh '''cd serviceA
                 docker build -t servicea:1.0.0 .
                 docker tag servicea:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
-                docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
+                docker.withRegistry("https://gcr.io", "gcr:cred-id") {
+                    docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
+                }
                 cd ..'''
             
                 sh '''cd serviceB
                 docker build -t serviceb:1.0.0 .
                 docker tag serviceb:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
-                docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
+                docker.withRegistry("https://gcr.io", "gcr:cred-id") {
+                    docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
+                }
                 cd ..'''
             }
         }
