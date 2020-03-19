@@ -35,18 +35,9 @@ podTemplate(
     ]
 ) {
 
-    environment {
-        PROJECT = "qwiklabs-gcp-01-516dac6d48f0"
-        CLUSTER = "jenkins-cd"
-        CLUSTER_ZONE = "us-east1-d"
-        JENKINS_CRED = "${PROJECT}"
-        APP_SERVICE1 = "servicea"
-        APP_SERVICE2 = "serviceb"
-        TAG_ID = "1.0.0"
-  }
     node('mypod') {
         
-        def PROJECT = "qwiklabs-gcp-01-516dac6d48f0"
+        def PROJECT = "qwiklabs-gcp-01-fd6e8f56c6dd"
         def CLUSTER = "jenkins-cd"
         def CLUSTER_ZONE = "us-east1-d"
         def JENKINS_CRED = "${PROJECT}"
@@ -82,14 +73,14 @@ podTemplate(
 
                 sh '''cd serviceA
                 docker build -t servicea:1.0.0 .
-                docker tag servicea:1.0.0 gcr.io/qwiklabs-gcp-01-516dac6d48f0/servicea:1.0.0
-                docker push gcr.io/qwiklabs-gcp-01-516dac6d48f0/servicea:1.0.0
+                docker tag servicea:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
+                docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
                 cd ..'''
             
                 sh '''cd serviceB
                 docker build -t serviceb:1.0.0 .
-                docker tag serviceb:1.0.0 gcr.io/qwiklabs-gcp-01-516dac6d48f0/serviceb:1.0.0
-                docker push gcr.io/qwiklabs-gcp-01-516dac6d48f0/serviceb:1.0.0
+                docker tag serviceb:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
+                docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
                 cd ..'''
             }
         }
@@ -97,8 +88,8 @@ podTemplate(
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
                 //sh "/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 servicea hello"
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 ./helm/serviceA/ servicea --namespace dev")
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 ./helm/serviceB/ serviceb --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd,image.tag=1.0.0 ./helm/serviceA/ servicea --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd,image.tag=1.0.0 ./helm/serviceB/ serviceb --namespace dev")
             }
         }
     }
