@@ -1,101 +1,82 @@
-/*
-    This is the main pipeline section with the stages of the CI/CD
- */
-pipeline {
-
-    agent any
-    
-    environment {
-        PROJECT = "qwiklabs-gcp-01-adf6005c1439"
-        CLUSTER = "jenkins-cd"
-        CLUSTER_ZONE = "us-east1-d"
-        JENKINS_CRED = "${PROJECT}"
-        APP_SERVICE1 = "servicea"
-        APP_SERVICE2 = "serviceb"
-        TAG_ID = "1.0.0"
-  }
-    
-    tools {
-        maven 'Maven 3.3.9' 
-        jdk 'jdk8'
-        //docker 'docker'
-      
-    }
-    
-    stages{
-
-        //def commitId
-    stage ('Extract') {
-        steps {
-            script {
-                checkout scm
-            sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-            }
-            
-        }
-       
-    }
-
-    stage('Build Application Code') { 
-        steps {
-            script {
-                sh '''
-            cd serviceA
-            mvn -DskipTests clean package
-            '''
-            sh '''
-            cd serviceB
-            mvn -DskipTests clean package
-            cd ..
-            '''
-            }
-            
-        }
+podTemplate(
+    label: 'mypod', 
+    inheritFrom: 'default',
+    containers: [
+        containerTemplate(
+            name: 'maven', 
+            image: 'maven:3.6.3-jdk-11-openj9',
+            ttyEnabled: true,
+            command: 'cat'
+        ),
+        containerTemplate(
+            name: 'docker', 
+            image: 'docker:18.02',
+            ttyEnabled: true,
+            command: 'cat'
+        ),
+        containerTemplate(
+            name: 'helm', 
+            image: 'ibmcom/k8s-helm:v2.6.0',
+            ttyEnabled: true,
+            command: 'cat'
+        )
+    ],
+    volumes: [
+        hostPathVolume(
+            hostPath: '/var/run/docker.sock',
+            mountPath: '/var/run/docker.sock'
+        )
+    ]
+) {
+    node('mypod') {
         
-    }
+        def PROJECT = "qwiklabs-gcp-01-516dac6d48f0"
+        def CLUSTER = "jenkins-cd"
+        def CLUSTER_ZONE = "us-east1-d"
+        def JENKINS_CRED = "${PROJECT}"
+        def APP_SERVICE1 = "servicea"
+        def APP_SERVICE2 = "serviceb"
+        def TAG_ID = "1.0.0"
+        def commitId
 
-    stage('Build Docker Image') {
-        steps {
-             script {
-                 sh "cd serviceA"
-            sh "docker build -t ${env.APP_SERVICE1}:${env.TAG_ID} ."
-            sh "docker tag ${env.APP_SERVICE1}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE1}:${env.TAG_ID}"
-            
-            sh "cd serviceB"
-            sh "docker build -t ${env.APP_SERVICE2}:${env.TAG_ID} ."
-            sh "docker tag ${env.APP_SERVICE2}:${env.TAG_ID} gcr.io/${env.PROJECT}/${env.APP_SERVICE2}:${env.TAG_ID}"
-             }
-            
+        stage ('Git Checkout') {
+            checkout scm
+            commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
-        
-    }
+        stage ('Maven Build') {
+            container ('maven') {
+                sh '''cd serviceA
+                mvn -DskipTests clean package'''
 
-    stage('Push Image to GCR') {
-        steps {
-            script {
-                docker.withRegistry('https://gcr.io/${env.PROJECT}/', 'env.JENKINS_CRED') {
-            sh "docker push ${env.APP_SERVICE1}:${env.TAG_ID}"
-            sh "docker push ${env.APP_SERVICE2}:${env.TAG_ID}"
-            }
-            
+                sh '''cd serviceB
+                mvn -DskipTests clean package
+                cd ..'''
             }
         }
-        
-    }
+        def repository
+        stage ('Docker Build and Push') {
+            container ('docker') {
+                //def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
+                //repository = "${registryIp}:80/hello"
 
-    stage('Helm Deployment') {
-        steps {
-           script {
-                container('helm') {
-                    // Init authentication and config for your kubernetes cluster
-                    sh("helm init --client-only --skip-refresh")
-                    sh("helm upgrade --install --wait ${env.APP_SERVICE1} ./helm/serviceA/ --namespace dev")
-                    sh("helm upgrade --install --wait ${env.APP_SERVICE2} ./helm/serviceB/ --namespace dev")
-                }
+                sh "cd serviceA"
+                sh "docker build -t ${APP_SERVICE1}:${env.TAG_ID} ."
+                sh "docker tag ${APP_SERVICE1}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}"
+                sh "docker push gcr.io/${PROJECT}/${APP_SERVICE1}:${TAG_ID}"
+            
+                sh "cd serviceB"
+                sh "docker build -t ${APP_SERVICE2}:${TAG_ID} ."
+                sh "docker tag ${APP_SERVICE2}:${TAG_ID} gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}"
+                sh "docker push gcr.io/${PROJECT}/${APP_SERVICE2}:${TAG_ID}"
             }
         }
-    }
-
+        stage ('Helm Deploy') {
+            container ('helm') {
+                sh "/helm init --client-only --skip-refresh"
+                sh "/helm upgrade --install --wait --set image.repository=${repository},image.tag=${commitId} hello hello"
+            }
+        }
     }
 }
+
 
