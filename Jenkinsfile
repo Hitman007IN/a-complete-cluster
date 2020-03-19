@@ -27,9 +27,8 @@ podTemplate(
             mountPath: '/var/run/docker.sock'
         )
     ]
-) {
-
-    environment {
+) 
+environment {
         PROJECT = "qwiklabs-gcp-01-516dac6d48f0"
         CLUSTER = "jenkins-cd"
         CLUSTER_ZONE = "us-east1-d"
@@ -38,6 +37,8 @@ podTemplate(
         APP_SERVICE2 = "serviceb"
         TAG_ID = "1.0.0"
   }
+  
+  {  
     node('mypod') {
 
         stage ('Git Checkout') {
