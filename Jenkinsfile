@@ -112,7 +112,7 @@ podTemplate(
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
                 //sh "/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 servicea hello"
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-fc09b4cc0edd,image.tag=1.0.0 servicea helm/serviceA/ --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-fc09b4cc0edd,image.tag=1.0.0 servicea helm/serviceA")
                 sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-fc09b4cc0edd,image.tag=1.0.0 serviceb helm/serviceB/ --namespace dev")
             }
         }
