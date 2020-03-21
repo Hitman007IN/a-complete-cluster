@@ -1,7 +1,7 @@
 replicaCount: 1
 imagePullSecrets:
 image:
-  repository: asia.gcr.io/flawless-mason-258102/serviceb:1.0.0
+  repository: gcr.io/qwiklabs-gcp-00-fc09b4cc0edd/serviceb:1.0.0
   tag: dev
   pullPolicy: Always
 labels:
