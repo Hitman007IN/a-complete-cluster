@@ -33,9 +33,6 @@ podTemplate(
         hostPathVolume(
             hostPath: '/var/run/docker.sock',
             mountPath: '/var/run/docker.sock'
-        ),
-        secretVolume(mountPath: '/home/jenkins/dev',
-            secretName: 'jenkins-deploy-dev-infra'
         )
     ]
 ) {
