@@ -78,7 +78,7 @@ podTemplate(
             //}
 
             container ('docker') {
-                def registryIp = "gcr.io/qwiklabs-gcp-00-89ee1953fcd8/"//sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
+                def registryIp = "gcr.io/qwiklabs-gcp-00-89ee1953fcd8"//sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
                 //repository = "${registryIp}:80/services" 
 
                 //echo registryIp
