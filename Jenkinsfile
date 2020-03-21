@@ -81,22 +81,31 @@ podTemplate(
             //}
 
             container ('docker') {
-                //def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
-                //repository = "${registryIp}:80/hello"
+                def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
+                //repository = "${registryIp}:80/services"
 
-                sh "docker-credential-gcr configure-docker"
+                sh "cd serviceA"
+                sh "docker build -t ${registryIp}/servicea:1.0.0 ."
+                sh "docker push ${registryIp}/servicea:1.0.0"
+                sh "cd .."
                 
-                sh '''cd serviceA
-                docker build -t servicea:1.0.0 .
-                docker tag servicea:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
-                docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
-                cd ..'''
+                sh "cd serviceB"
+                sh "docker build -t ${registryIp}/serviceb:1.0.0 ."
+                sh "docker push ${registryIp}/serviceb:1.0.0"
+                sh "cd .."
+                
+                //sh '''cd serviceA
+                //docker build -t servicea:1.0.0 .
+                //docker tag servicea:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
+                //docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
+                //cd ..'''
             
-                sh '''cd serviceB
-                docker build -t serviceb:1.0.0 .
-                docker tag serviceb:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
-                docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
-                cd ..'''
+                //sh '''cd serviceB
+                //docker build -t serviceb:1.0.0 .
+                //docker tag serviceb:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
+                //docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
+                //cd ..'''
+
             }
         }
         stage ('Helm Deploy') {
