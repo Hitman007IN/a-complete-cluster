@@ -39,7 +39,7 @@ podTemplate(
 
     node('mypod') {
         
-        def PROJECT = "qwiklabs-gcp-00-89ee1953fcd8"
+        def PROJECT = "qwiklabs-gcp-00-fc09b4cc0edd"
         def CLUSTER = "jenkins-cd"
         def CLUSTER_ZONE = "us-east1-d"
         def JENKINS_CRED = "${PROJECT}"
@@ -78,7 +78,7 @@ podTemplate(
             //}
 
             container ('docker') {
-                def registryIp = "gcr.io/qwiklabs-gcp-00-89ee1953fcd8"//sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
+                def registryIp = "gcr.io/qwiklabs-gcp-00-fc09b4cc0edd"//sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
                 //repository = "${registryIp}:80/services" 
 
                 //echo registryIp
@@ -112,8 +112,8 @@ podTemplate(
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
                 //sh "/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 servicea hello"
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-89ee1953fcd8,image.tag=1.0.0 ./helm/serviceA/ servicea ")
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-89ee1953fcd8,image.tag=1.0.0 ./helm/serviceB/ serviceb ")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-fc09b4cc0edd,image.tag=1.0.0 ./helm/serviceA/ servicea --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-fc09b4cc0edd,image.tag=1.0.0 ./helm/serviceB/ serviceb --namespace dev")
             }
         }
     }
