@@ -21,7 +21,7 @@ podTemplate(
             image: 'ibmcom/k8s-helm:v2.6.0',
             ttyEnabled: true,
             command: 'cat'
-        ),
+        )
         //containerTemplate(
         //    name: 'gcloud',
         //   image: 'gcr.io/cloud-builders/gcloud',
