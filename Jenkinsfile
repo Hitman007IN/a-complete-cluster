@@ -79,7 +79,10 @@ podTemplate(
 
             container ('docker') {
                 def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
-                //repository = "${registryIp}:80/services"
+                repository = "${registryIp}:80/services"
+
+                echo ${registryIp}
+                echo ${repository}
 
                 sh "cd serviceA"
                 sh "docker build -t ${registryIp}/servicea:1.0.0 ."
