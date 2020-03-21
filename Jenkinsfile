@@ -112,8 +112,8 @@ podTemplate(
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
                 //sh "/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 servicea hello"
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-89ee1953fcd8,image.tag=1.0.0 ./helm/serviceA/ servicea --namespace dev")
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-89ee1953fcd8,image.tag=1.0.0 ./helm/serviceB/ serviceb --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-89ee1953fcd8,image.tag=1.0.0 ./helm/serviceA/ servicea ")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-89ee1953fcd8,image.tag=1.0.0 ./helm/serviceB/ serviceb ")
             }
         }
     }
