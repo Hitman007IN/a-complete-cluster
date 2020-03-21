@@ -85,12 +85,14 @@ podTemplate(
                 echo repository
 
                 sh "cd serviceA"
-                sh "docker build -t ${registryIp}/servicea:1.0.0 ."
+                sh "docker build -t servicea:1.0.0 ."
+                sh "docker tag servicea:1.0.0 ${registryIp}/servicea:1.0.0"
                 sh "docker push ${registryIp}/servicea:1.0.0"
                 sh "cd .."
                 
                 sh "cd serviceB"
-                sh "docker build -t ${registryIp}/serviceb:1.0.0 ."
+                sh "docker build -t serviceb:1.0.0 ."
+                sh "docker tag serviceb:1.0.0 ${registryIp}/serviceb:1.0.0"
                 sh "docker push ${registryIp}/serviceb:1.0.0"
                 sh "cd .."
                 
