@@ -84,6 +84,8 @@ podTemplate(
                 //echo registryIp
                 //echo repository
 
+                sh "cat keyfile.json | docker login -u _json_key --password-stdin https://gcr.io"
+
                 sh "docker build -t servicea:1.0.0 serviceA/."
                 sh "docker tag servicea:1.0.0 ${registryIp}/servicea:1.0.0"
                 sh "docker push ${registryIp}/servicea:1.0.0"
