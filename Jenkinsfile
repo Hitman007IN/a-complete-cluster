@@ -78,23 +78,19 @@ podTemplate(
             //}
 
             container ('docker') {
-                def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
-                repository = "${registryIp}:80/services" 
+                def registryIp = "gcr.io/qwiklabs-gcp-00-89ee1953fcd8/"//sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
+                //repository = "${registryIp}:80/services" 
 
-                echo registryIp
-                echo repository
+                //echo registryIp
+                //echo repository
 
-                //sh "cd serviceA"
                 sh "docker build -t servicea:1.0.0 serviceA/."
                 sh "docker tag servicea:1.0.0 ${registryIp}/servicea:1.0.0"
                 sh "docker push ${registryIp}/servicea:1.0.0"
-                sh "cd .."
                 
-                sh "cd serviceB"
-                sh "docker build -t serviceb:1.0.0 ."
+                sh "docker build -t serviceb:1.0.0 serviceB/."
                 sh "docker tag serviceb:1.0.0 ${registryIp}/serviceb:1.0.0"
                 sh "docker push ${registryIp}/serviceb:1.0.0"
-                sh "cd .."
                 
                 //sh '''cd serviceA
                 //docker build -t servicea:1.0.0 .
