@@ -7,7 +7,7 @@ image:
 labels:
   app: serviceb
 service:
-  type: clusterIP
+  type: ClusterIP
   externalPort: 80
   internalPort: 8081
 resources:
