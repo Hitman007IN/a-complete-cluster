@@ -1,5 +1,4 @@
 replicaCount: 1
-imagePullSecrets:
 image:
   repository: gcr.io/qwiklabs-gcp-00-fc09b4cc0edd/serviceb:1.0.0
   tag: dev
