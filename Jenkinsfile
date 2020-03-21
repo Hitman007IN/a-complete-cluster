@@ -42,7 +42,7 @@ podTemplate(
 
     node('mypod') {
         
-        def PROJECT = "qwiklabs-gcp-01-fd6e8f56c6dd"
+        def PROJECT = "qwiklabs-gcp-00-89ee1953fcd8"
         def CLUSTER = "jenkins-cd"
         def CLUSTER_ZONE = "us-east1-d"
         def JENKINS_CRED = "${PROJECT}"
@@ -112,8 +112,8 @@ podTemplate(
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
                 //sh "/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 servicea hello"
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd,image.tag=1.0.0 ./helm/serviceA/ servicea --namespace dev")
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd,image.tag=1.0.0 ./helm/serviceB/ serviceb --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-89ee1953fcd8,image.tag=1.0.0 ./helm/serviceA/ servicea --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-00-89ee1953fcd8,image.tag=1.0.0 ./helm/serviceB/ serviceb --namespace dev")
             }
         }
     }
