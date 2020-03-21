@@ -84,7 +84,7 @@ podTemplate(
                 echo registryIp
                 echo repository
 
-                sh "cd serviceA"
+                //sh "cd serviceA"
                 sh "docker build -t servicea:1.0.0 ."
                 sh "docker tag servicea:1.0.0 ${registryIp}/servicea:1.0.0"
                 sh "docker push ${registryIp}/servicea:1.0.0"
