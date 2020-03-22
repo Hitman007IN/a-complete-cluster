@@ -7,8 +7,7 @@ labels:
   app: serviceb
 service:
   type: ClusterIP
-  externalPort: 80
-  internalPort: 8080
+  internalPort: 8081
 resources:
   limits:
     cpu: 100m
