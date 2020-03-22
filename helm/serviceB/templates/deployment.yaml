@@ -1,32 +1,32 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ .Values.labels.app }}-deployment
+  name: serviceb-deployment
   labels:
-    app: {{ .Values.labels.app }}
+    app: serviceb
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.labels.app }}
+      app: serviceb
   template:
     metadata:
       labels:
-        app: {{ .Values.labels.app }}
+        app: serviceb
     spec:
       containers:
-        - name: {{ .Values.labels.app }}
-          image: "{{ .Values.image.repository }}/{{ .Values.labels.app }}:{{ .Values.image.tag }}"
+        - name: serviceb
+          image: gcr.io/flawless-mason-258102/serviceb:1.0.0
           ports:
-            - containerPort: {{ .Values.service.internalPort }}
+            - containerPort: 8081
           readinessProbe:
             httpGet:
                 path: /welcome
-                port: {{ .Values.service.internalPort }}
+                port: 8081
             initialDelaySeconds: 30
             periodSeconds: 20
           livenessProbe:
             tcpSocket:
-              port: {{ .Values.service.internalPort }}
+              port: 8081
             initialDelaySeconds: 30
             periodSeconds: 20
