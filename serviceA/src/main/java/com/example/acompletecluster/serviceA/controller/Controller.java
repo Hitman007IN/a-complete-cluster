@@ -26,7 +26,7 @@ public class Controller {
     @RequestMapping("/call")
     public String call() {
         
-    	final String uri = "http://localhost:8081/call";
+    	final String uri = "http://serviceb-service:8081/call";
 
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
