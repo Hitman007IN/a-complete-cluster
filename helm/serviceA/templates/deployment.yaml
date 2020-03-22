@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: servicea
-          image: gcr.io/qwiklabs-gcp-02-0ec40ed542b7/servicea:1.0.0
+          image: gcr.io/flawless-mason-258102/servicea:1.0.0
           ports:
             - containerPort: 8080
           readinessProbe:
