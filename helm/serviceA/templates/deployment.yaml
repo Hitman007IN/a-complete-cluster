@@ -30,6 +30,10 @@ spec:
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 20
+          
+          
+          
+          
           #resources:
           #  limits:
           #    cpu: 100m
