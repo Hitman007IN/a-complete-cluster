@@ -49,7 +49,7 @@ podTemplate(
         stage ('Maven Build') {
             container ('maven') {
                 sh '''cd serviceA
-                mvn -DskipTests clean package'''
+                mvn -DskipTests clean install'''
 
                 sh '''cd serviceB
                 mvn -DskipTests clean package
