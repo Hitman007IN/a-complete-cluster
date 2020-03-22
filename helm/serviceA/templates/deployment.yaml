@@ -30,16 +30,3 @@ spec:
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 20
-          
-          
-          
-          
-          #resources:
-          #  limits:
-          #    cpu: 100m
-          #    memory: 128Mi
-          #  requests:
-          #    cpu: 100m
-          #    memory: 128Mi
-#          resources:
-#{{ toYaml .Values.resources | indent 12 }}
