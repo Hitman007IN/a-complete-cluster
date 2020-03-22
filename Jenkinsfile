@@ -52,7 +52,7 @@ podTemplate(
                 mvn -DskipTests clean install'''
 
                 sh '''cd serviceB
-                mvn -DskipTests clean package
+                mvn -DskipTests clean install
                 cd ..'''
             }
         }
