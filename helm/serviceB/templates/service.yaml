@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.labels.app }}-service
 spec:
+  type: {{ .Values.service.type }}
   selector:
     app: {{ .Values.labels.app }}
   ports:
