@@ -1,34 +1,34 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: "{{ .Values.labels.app }}-deployment"
+  name: servicea-deployment
   labels:
-    app: "{{ .Values.labels.app }}"
+    app: servicea
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      app: "{{ .Values.labels.app }}"
+      app: servicea
   template:
     metadata:
       labels:
-        app: "{{ .Values.labels.app }}"
+        app: servicea
     spec:
       containers:
-        - name: "{{ .Values.labels.app }}"
-          image: "{{ .Values.image.repository }}"
+        - name: servicea
+          image: gcr.io/qwiklabs-gcp-00-fc09b4cc0edd/servicea:1.0.0
           ports:
-            - containerPort: {{ .Values.service.internalPort }}
+            - containerPort: 8080
           readinessProbe:
             httpGet:
                 path: /welcome
-                port: {{ .Values.service.internalPort }}
+                port: 8080
             initialDelaySeconds: 30
             periodSeconds: 20
           livenessProbe:
             tcpSocket:
-              port: {{ .Values.service.internalPort }}
+              port: 8080
             initialDelaySeconds: 30
             periodSeconds: 20
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
+#          resources:
+#{{ toYaml .Values.resources | indent 12 }}
