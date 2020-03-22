@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: serviceb-service
+  name: {{ .Values.labels.app }}-service
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type }}
   selector:
-    app: serviceb
+    app: {{ .Values.labels.app }}
   ports:
     - protocol: TCP
-      port: 8081
-      targetPort: 8081
+      port: {{ .Values.service.internalPort }}
+      targetPort: {{ .Values.service.internalPort }}
     
