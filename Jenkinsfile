@@ -22,12 +22,6 @@ podTemplate(
             ttyEnabled: true,
             command: 'cat'
         )
-        //containerTemplate(
-        //    name: 'gcloud',
-        //   image: 'gcr.io/cloud-builders/gcloud',
-        //    ttyEnabled: true,
-        //    command: 'cat'
-       // )
     ],
     volumes: [
         hostPathVolume(
@@ -48,17 +42,9 @@ podTemplate(
         def TAG_ID = "1.0.0"
         def commitId
 
-        //env.GOOGLE_APPLICATION_CREDENTIALS = GOOGLE_APPLICATION_CREDENTIALS
-
         stage ('Git Checkout') {
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-
-            //sh "cp jenkins-deploy-dev-infra.json /home/jenkins/dev/"
-            //sh "gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}"
-            //sh "gcloud config set compute/zone ${env.CLUSTER_ZONE}"
-            //sh "gcloud config set core/project ${env.PROJECT_ID}"
-            //sh "gcloud config set compute/region ${env.REGION}"
         }
         stage ('Maven Build') {
             container ('maven') {
@@ -73,16 +59,8 @@ podTemplate(
         def repository
         stage ('Docker Build and Push') {
 
-            //container ('gcloud') {
-            //    sh "gcloud auth configure-docker"
-            //}
-
             container ('docker') {
-                def registryIp = "gcr.io/flawless-mason-258102"//sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
-                //repository = "${registryIp}:80/services" 
-
-                //echo registryIp
-                //echo repository
+                def registryIp = "gcr.io/flawless-mason-258102"
 
                 sh "cat keyfile.json | docker login -u _json_key --password-stdin https://gcr.io"
 
@@ -93,18 +71,6 @@ podTemplate(
                 sh "docker build -t serviceb:1.0.0 serviceB/."
                 sh "docker tag serviceb:1.0.0 ${registryIp}/serviceb:1.0.0"
                 sh "docker push ${registryIp}/serviceb:1.0.0"
-                
-                //sh '''cd serviceA
-                //docker build -t servicea:1.0.0 .
-                //docker tag servicea:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
-                //docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/servicea:1.0.0
-                //cd ..'''
-            
-                //sh '''cd serviceB
-                //docker build -t serviceb:1.0.0 .
-                //docker tag serviceb:1.0.0 gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
-                //docker push gcr.io/qwiklabs-gcp-01-fd6e8f56c6dd/serviceb:1.0.0
-                //cd ..'''
 
             }
         }

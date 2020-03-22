@@ -9,6 +9,7 @@ Step 1 :- create cluster
 gcloud container clusters create jenkins-cd \
 --num-nodes 6 \
 --machine-type n1-standard-2 \
+--zone=asia-south1-b \
 --scopes "https://www.googleapis.com/auth/source.read_write,cloud-platform"
 
 Step 2 :- Connect to cluster
@@ -28,7 +29,6 @@ kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-adm
 Step 4 :- Configure Jenkins
 git clone https://github.com/GoogleCloudPlatform/continuous-deployment-on-kubernetes.git
 cd continuous-deployment-on-kubernetes
-kubectl create clusterrolebinding jenkins-deploy --clusterrole=cluster-admin --serviceaccount=default:cd-jenkins
 
 Step 5 :- Install Jenkins
 helm install -n cd stable/jenkins -f jenkins/values.yaml --version 1.2.2 --wait
@@ -59,4 +59,5 @@ your project name will be displayed
 Click “OK”
 
 
-Reference - https://cloud.google.com/solutions/continuous-delivery-jenkins-kubernetes-engine
+
+Reference - https://cloud.google.com/solutions/jenkins-on-kubernetes-engine-tutorial
