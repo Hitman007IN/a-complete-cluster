@@ -8,18 +8,18 @@ Istio-jenkins-helm-kubernetes-docker-grafana-stackdriver
 Step 1 :- create cluster
 gcloud container clusters create jenkins-cd \
 --num-nodes 6 \
---machine-type n1-standard-2 \
---zone=asia-south1-b \
+--machine-type n1-standard-4 \
+--zone=us-east1-b \
 --scopes "https://www.googleapis.com/auth/source.read_write,cloud-platform"
 
 Step 2 :- Connect to cluster
-gcloud container clusters get-credentials jenkins-cd --zone asia-south1-b --project flawless-mason-258102
+gcloud container clusters get-credentials jenkins-cd --zone us-east1-b --project flawless-mason-258102
 
 Step 3 :- Install Helm
 wget https://storage.googleapis.com/kubernetes-helm/helm-v2.14.1-linux-amd64.tar.gz
 tar zxfv helm-v2.14.1-linux-amd64.tar.gz
 cp linux-amd64/helm .
-kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+    kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
 kubectl create serviceaccount tiller --namespace kube-system
 kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 ./helm init --service-account=tiller
@@ -57,6 +57,8 @@ Click “Add Credentials” on the left
 From the “Kind” dropdown, select “Google Service Account from metadata”
 your project name will be displayed
 Click “OK”
+
+Clone Sourec Repository - https://source.developers.google.com/p/flawless-mason-258102/r/github_hitman007in_a-complete-cluster
 
 
 
