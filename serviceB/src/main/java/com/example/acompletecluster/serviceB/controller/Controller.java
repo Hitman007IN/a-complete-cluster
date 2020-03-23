@@ -24,6 +24,6 @@ public class Controller {
     
     @RequestMapping("/call")
     public String call() {
-        return "message recieved from ServiveB on request from ServiceA";
+        return "Message recieved from ServiveB on request from ServiceA. This is just to test the connectivity, and no other intentions behind.";
     }
 }
