@@ -64,13 +64,13 @@ podTemplate(
 
                 sh "cat keyfile.json | docker login -u _json_key --password-stdin https://gcr.io"
 
-                sh "docker build -t servicea:1.0.0 serviceA/."
-                sh "docker tag servicea:1.0.0 ${registryIp}/servicea:1.0.0"
-                sh "docker push ${registryIp}/servicea:1.0.0"
+                sh "docker build -t servicea:2.0.0 serviceA/."
+                sh "docker tag servicea:2.0.0 ${registryIp}/servicea:2.0.0"
+                sh "docker push ${registryIp}/servicea:2.0.0"
                 
-                sh "docker build -t serviceb:1.0.0 serviceB/."
-                sh "docker tag serviceb:1.0.0 ${registryIp}/serviceb:1.0.0"
-                sh "docker push ${registryIp}/serviceb:1.0.0"
+                sh "docker build -t serviceb:2.0.0 serviceB/."
+                sh "docker tag serviceb:2.0.0 ${registryIp}/serviceb:2.0.0"
+                sh "docker push ${registryIp}/serviceb:2.0.0"
 
             }
         }
@@ -78,8 +78,8 @@ podTemplate(
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
                 //sh "/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 servicea hello"
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/flawless-mason-258102,image.tag=1.0.0 servicea helm/serviceA/ --namespace dev")
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/flawless-mason-258102,image.tag=1.0.0 serviceb helm/serviceB/ --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/flawless-mason-258102,image.tag=2.0.0 servicea helm/serviceA/ --namespace dev")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/flawless-mason-258102,image.tag=2.0.0 serviceb helm/serviceB/ --namespace dev")
             }
         }
     }

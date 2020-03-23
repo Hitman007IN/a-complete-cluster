@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: gcr.io/flawless-mason-258102
-  tag: 1.0.0
+  tag: 2.0.0
   pullPolicy: Always
 labels:
   app: serviceb
