@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: servicea-service
+spec:
+  type: ClusterIP
+  # Kubernetes load balancer is not required as we are using istio gateway
+  selector:
+    app: servicea
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
