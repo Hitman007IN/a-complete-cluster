@@ -47,6 +47,11 @@ Step 5 :- kubectl apply -f istio.yaml
 
 Step 6 :- kubectl get pods -n istio-system
 
+Step 7 :- Wait for every pod to be either in completed or running state
+
+Step 8 :- Ingecting SideCar 
+kubectl label namespace microservices istio-injection=enabled 
+
 # Install Jenkins on GKE
 
 Step 1 :- Configure Jenkins
@@ -67,7 +72,7 @@ Step 3 :- Connect to Jenkins
 # Create Jenkins Pipeline
 
 Step 1 :-
-- kubectl create namespace dev
+- kubectl create namespace microservices
 - kubectl create clusterrolebinding default-service --clusterrole=cluster-admin --serviceaccount=default:default
 
 Step2 2 :-  Add your service account credentials
@@ -82,7 +87,25 @@ Step2 2 :-  Add your service account credentials
 
 Clone Sourec Repository - https://source.developers.google.com/p/flawless-mason-258102/r/github_hitman007in_a-complete-cluster
 
+# After Applications are Deployed
 
+Step 1 :- Check if we have 2 container on the pods deployed in namespace microservices 
+kubectl get all -n microservices
+
+Step 2 :- Get external IP for the IngressGateway 
+kubectl get svc -n istio-system -l istio=ingressgateway
+
+Step 3 :- Set variable 
+EXTERNAL_IP=$(kubectl get svc -n istio-system \
+  -l app=istio-ingressgateway \
+  -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
+
+Step 4 :- Create a gateway.yaml file and apply to the cluster 
+kubectl apply -f http-gateway.yaml
+
+Step 5 :- Create a Virtual Service and apply to the cluster
+kubectl apply -f virtualservice-external.yaml
+ 
 Reference :-
 - https://cloud.google.com/solutions/jenkins-on-kubernetes-engine-tutorial
 - https://medium.com/google-cloud/back-to-microservices-with-istio-p1-827c872daa53

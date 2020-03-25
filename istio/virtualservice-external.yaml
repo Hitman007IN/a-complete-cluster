@@ -1,0 +1,21 @@
+kind: VirtualService
+metadata:
+  name: external-services
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - http-gateway                      
+  http:
+  - match:
+    - uri:
+        exact: /call
+    - uri:
+        exact: /welcome
+    - uri:
+        exact: /goodbye
+    route:
+    - destination:
+        host: servicea-service             
+        port:
+          number: 80
