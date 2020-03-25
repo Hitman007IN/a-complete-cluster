@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: {{ .Values.labels.app }}
+        namespace: {{ .Values.labels.ns }}
     spec:
       containers:
         - name: {{ .Values.labels.app }}

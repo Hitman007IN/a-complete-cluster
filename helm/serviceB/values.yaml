@@ -5,6 +5,7 @@ image:
   pullPolicy: Always
 labels:
   app: serviceb
+  ns: microservices
 service:
   type: ClusterIP
   internalPort: 8081

@@ -5,6 +5,7 @@ image:
   pullPolicy: Always
 labels:
   app: servicea
+  ns: microservices
 service:
   type: LoadBalancer
   externalPort: 80
