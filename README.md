@@ -49,7 +49,11 @@ Step 6 :- kubectl get pods -n istio-system
 
 Step 7 :- Wait for every pod to be either in completed or running state
 
-Step 8 :- Ingecting SideCar 
+Step 8 :- Create Microservices Namespace and give permission for default SA
+- kubectl create namespace microservices
+- kubectl create clusterrolebinding default-service --clusterrole=cluster-admin --serviceaccount=default:default
+
+Step 9 :- Ingecting SideCar 
 kubectl label namespace microservices istio-injection=enabled 
 
 # Install Jenkins on GKE
@@ -71,11 +75,7 @@ Step 3 :- Connect to Jenkins
 
 # Create Jenkins Pipeline
 
-Step 1 :-
-- kubectl create namespace microservices
-- kubectl create clusterrolebinding default-service --clusterrole=cluster-admin --serviceaccount=default:default
-
-Step2 2 :-  Add your service account credentials
+Step 1 :-  Add your service account credentials
 
 - First we will need to configure our GCP credentials in order for Jenkins to be able to access our code repository
 
@@ -116,7 +116,11 @@ kubectl port-forward \
     -n istio-system 20001
 
 Step 2 :- Login with username and password as admin
- 
+
+
+# Cost Savings at Night
+gcloud container clusters resize  jenkins-cd --num-nodes=0 --zone=us-east1-b
+
 Reference :-
 - https://cloud.google.com/solutions/jenkins-on-kubernetes-engine-tutorial
 - https://medium.com/google-cloud/back-to-microservices-with-istio-p1-827c872daa53
