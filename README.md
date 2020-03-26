@@ -101,10 +101,21 @@ EXTERNAL_IP=$(kubectl get svc -n istio-system \
   -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
 
 Step 4 :- Create a gateway.yaml file and apply to the cluster 
-kubectl apply -f http-gateway.yaml
+kubectl apply -f github_hitman007in_a-complete-cluster/istio/http-gateway.yaml
 
 Step 5 :- Create a Virtual Service and apply to the cluster
-kubectl apply -f virtualservice-external.yaml
+kubectl apply -f github_hitman007in_a-complete-cluster/istio/virtualservice-external.yaml
+
+
+# Kiali — Observability
+
+Step 1 :- To access Kiali’s Admin UI 
+kubectl port-forward \
+    $(kubectl get pod -n istio-system -l app=kiali \
+    -o jsonpath='{.items[0].metadata.name}') \
+    -n istio-system 20001
+
+Step 2 :- Login with username and password as admin
  
 Reference :-
 - https://cloud.google.com/solutions/jenkins-on-kubernetes-engine-tutorial

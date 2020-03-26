@@ -11,4 +11,5 @@ spec:
     - protocol: TCP
       port: {{ .Values.service.externalPort }}
       targetPort: {{ .Values.service.internalPort }}
+      nodePort: {{ .Values.service.nodePort }}
     
