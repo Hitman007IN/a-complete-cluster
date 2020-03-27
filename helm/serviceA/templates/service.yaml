@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.labels.app }}-service
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP #{{ .Values.service.type }}
   # Kubernetes load balancer is not required as we are using istio gateway
   selector:
     app: {{ .Values.labels.app }}
@@ -12,5 +12,5 @@ spec:
       name: http
       port: {{ .Values.service.externalPort }}
       targetPort: {{ .Values.service.internalPort }}
-      nodePort: {{ .Values.service.nodePort }}
+      # nodePort: {{ .Values.service.nodePort }}
     

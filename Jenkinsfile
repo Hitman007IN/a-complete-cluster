@@ -78,8 +78,8 @@ podTemplate(
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
                 //sh "/helm upgrade --install --wait --set image.repository=gcr.io/qwiklabs-gcp-01-516dac6d48f0,image.tag=1.0.0 servicea hello"
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/flawless-mason-258102,image.tag=5.0.0 servicea helm/serviceA/ --namespace microservices")
-                sh("/helm upgrade --install --wait --set image.repository=gcr.io/flawless-mason-258102,image.tag=2.0.0 serviceb helm/serviceB/ --namespace microservices")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/flawless-mason-258102,image.tag=5.0.0 servicea helm/serviceA/") //--namespace microservices")
+                sh("/helm upgrade --install --wait --set image.repository=gcr.io/flawless-mason-258102,image.tag=2.0.0 serviceb helm/serviceB/") //--namespace microservices")
             }
         }
     }
