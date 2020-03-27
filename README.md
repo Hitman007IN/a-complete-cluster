@@ -124,9 +124,18 @@ kubectl -n istio-system port-forward \
     $(kubectl -n istio-system get pod -l app=grafana \
     -o jsonpath={.items[0].metadata.name}) 3000
 
+Step 2 :- On the top left click the menu Home and select Istio Service Dashboard and on the top left corner select the service starting with servicea and serviceb
+
+Step 3 :- Put some load to see the graphs
+while true; do \
+    curl -i http://35.231.241.33/call; done
+
 
 # Cost Savings at Night
 gcloud container clusters resize  jenkins-cd --num-nodes=0 --zone=us-east1-b
+
+# To Override the Istio Sidecar injection
+kubectl label namespace microservices istio-injectio=disabled --overwrite=true
 
 Reference :-
 - https://cloud.google.com/solutions/jenkins-on-kubernetes-engine-tutorial
