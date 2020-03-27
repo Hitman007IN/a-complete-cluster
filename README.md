@@ -115,7 +115,14 @@ kubectl port-forward \
     -o jsonpath='{.items[0].metadata.name}') \
     -n istio-system 20001
 
-Step 2 :- Login with username and password as admin
+Step 2 :- Login with port 20001, username and password as admin
+
+# Grafana Visualization Dashboard
+
+Step 1 :- Port Forward and connect 
+kubectl -n istio-system port-forward \
+    $(kubectl -n istio-system get pod -l app=grafana \
+    -o jsonpath={.items[0].metadata.name}) 3000
 
 
 # Cost Savings at Night

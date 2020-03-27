@@ -7,10 +7,10 @@ labels:
   app: servicea
   ns: microservices
 service:
-  type: NodePort #LoadBalancer
+  type: ClusterIP
   externalPort: 8080
   internalPort: 8080
-  nodePort: 31300
+  # nodePort: 31300
 resources:
   limits:
     cpu: 100m

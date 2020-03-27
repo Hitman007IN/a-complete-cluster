@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.labels.app }}-service
 spec:
-  type: ClusterIP #{{ .Values.service.type }}
+  type: {{ .Values.service.type }}
   # Kubernetes load balancer is not required as we are using istio gateway
   selector:
     app: {{ .Values.labels.app }}
