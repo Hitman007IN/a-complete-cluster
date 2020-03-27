@@ -1,14 +1,14 @@
 replicaCount: 1
 image:
   repository: gcr.io/flawless-mason-258102
-  tag: 2.0.0
+  tag: 3.0.0
   pullPolicy: Always
 labels:
   app: servicea
   ns: microservices
 service:
   type: NodePort #LoadBalancer
-  externalPort: 80
+  externalPort: 8080
   internalPort: 8080
   nodePort: 31000
 resources:
