@@ -1,7 +1,13 @@
 # a-complete-cluster
-Istio-jenkins-helm-kubernetes-docker-grafana-stackdriver
+Istio-jenkins-helm-kubernetes-docker-grafana
 
-![alt text](https://github.com/Hitman007IN/a-complete-cluster/blob/master/architectural_diagram.png)
+![alt text](https://github.com/Hitman007IN/a-complete-cluster/blob/master/screenshots/architectural_design.png)
+
+# Application Architecture
+![alt text](https://github.com/Hitman007IN/a-complete-cluster/blob/master/screenshots/Microservice-Architecture.png)
+
+# Jenkins Pipeline
+![alt text](https://github.com/Hitman007IN/a-complete-cluster/blob/master/screenshots/CI%20CD%20Pipeline.png)
 
 # Create Cluster on GKE
 
