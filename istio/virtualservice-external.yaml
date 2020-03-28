@@ -17,6 +17,6 @@ spec:
         exact: /goodbye
     route:
     - destination:
-        host: servicea-service             
+        host: servicea-service.microservices         
         port:
           number: 8080
