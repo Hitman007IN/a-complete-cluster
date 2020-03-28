@@ -17,6 +17,6 @@ spec:
         exact: /goodbye
     route:
     - destination:
-        host: servicea-service.microservices         
+        host: servicea-service.microservices.svc.cluster.local         
         port:
           number: 8080
