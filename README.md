@@ -66,6 +66,8 @@ Step 2 :- Install Jenkins
 - helm install -n cd stable/jenkins -f jenkins/values.yaml --version 1.2.2 --wait
 - kubectl get pods
 - kubectl create clusterrolebinding jenkins-deploy --clusterrole=cluster-admin --serviceaccount=default:cd-jenkins
+
+Step 3 :- Connect to Jenkins UI
 - export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/component=jenkins-master" -l "app.kubernetes.io/instance=cd" -o jsonpath="{.items[0].metadata.name}")
 - kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
 
@@ -130,6 +132,15 @@ Step 3 :- Put some load to see the graphs
 while true; do \
     curl -i http://35.231.241.33/call; done
 
+
+# Enable Tracing with Jaeger
+
+Step 1 :- Port Forward 
+kubectl port-forward -n istio-system \
+    $(kubectl get pod -n istio-system -l app=jaeger \
+    -o jsonpath='{.items[0].metadata.name}') 16686
+
+Step 2 :- Connect with https://16686-dot-9675858-dot-devshell.appspot.com/search
 
 # Cost Savings at Night
 gcloud container clusters resize  jenkins-cd --num-nodes=0 --zone=us-east1-b
