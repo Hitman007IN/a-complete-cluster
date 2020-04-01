@@ -12,11 +12,12 @@ Istio-jenkins-helm-kubernetes-docker-grafana
 # Create Cluster on GKE
 
 Step 1 :- create cluster
-- gcloud container clusters create jenkins-cd \
+- ```gcloud container clusters create jenkins-cd \
 --num-nodes 6 \
 --machine-type n1-standard-4 \
 --zone=us-east1-b \
 --scopes "https://www.googleapis.com/auth/source.read_write,cloud-platform"
+```
 
 Step 2 :- Connect to cluster
 - gcloud container clusters get-credentials jenkins-cd --zone us-east1-b --project flawless-mason-258102
